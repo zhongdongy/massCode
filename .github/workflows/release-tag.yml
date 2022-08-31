@@ -20,6 +20,7 @@ jobs:
         uses: Akryum/release-tag@conventional
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_SPONSORED: true
         with:
           tag_name: ${{ github.ref }}
           draft: true
