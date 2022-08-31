@@ -40,7 +40,7 @@ jobs:
           VITE_SPONSORED: true
         run: |
           pnpm run build
-          mkdir dist-artifact && cd $_
+          mkdir dist-artifact && cd dist
           cp $(ls | grep "exe$") ../dist-artifact/
 
       - name: Upload artifact
