@@ -17,8 +17,34 @@ jobs:
         uses: Akryum/release-tag@conventional
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VITE_SPONSORED: true
         with:
           tag_name: ${{ github.ref }}
           draft: true
           preset: angular # Use conventional-changelog preset
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 6.32.9
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--global, gulp, prettier, typescript]
+
+      - name: Build
+        env:
+          VITE_SPONSORED: true
+        run: |
+          pnpm run build
+          mkdir dist-artifact
+          cp dist/*.exe dist-artifact/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: assets
+          path: dist-artifact
